@@ -1,0 +1,19 @@
+
+.app {
+  margin: 0 10px;
+}
+
+.train .attr,
+.train .head {
+  display: inline-block;
+  margin: 2pt 5pt;
+  min-width: 250px;
+}
+
+.train .head {
+  font-weight: bolder;
+}
+
+.train .message {
+  font-size: 10pt;
+}
