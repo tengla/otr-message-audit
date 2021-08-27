@@ -12,6 +12,8 @@ const parseUtc = (utcStr) => {
   );
 };
 
+app.use(express.static('public'))
+
 app.get('/messages', async (req, res) => {
   const [from, until] = [
     parseUtc(req.query.from),
