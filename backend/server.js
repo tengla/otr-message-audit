@@ -13,7 +13,7 @@ const parseUtc = (utcStr) => {
 };
 
 app.get('/messages', async (req, res) => {
-  const [from,until] = [
+  const [from, until] = [
     parseUtc(req.query.from),
     parseUtc(req.query.until)
   ].map(d => {
@@ -21,9 +21,11 @@ app.get('/messages', async (req, res) => {
       newUTCDate(...d)
     )
   });
-  console.log('from', from, 'until', until)
+  const { train_id, country } = req.query;
+  console.log('train_id', train_id, 'country',
+    country, 'from', from, 'until', until);
   const msgs = await messages(
-    from, until );
+    train_id, country || 'NO', from, until);
   res.send(msgs);
 });
 

@@ -5,7 +5,7 @@ const DateTime = ({ name, onDateChange, onTimeChange }) => {
 
   return (
     <div>
-      <input type="date" name={`${name}-date`} defaultValue='2021-08-23'
+      <input type="date" name={`${name}-date`}
         onChange={e => {
           onDateChange(e.target.value)
         }} />
@@ -22,8 +22,6 @@ export const SelectTime = ({ onChange }) => {
   const [from, setFrom] = useState({ });
   const [until, setUntil] = useState({ });
 
-  const debug = JSON.stringify({ from, until });
-
   useEffect(() => {
     if (validate(from) && validate(until)) {
       onChange({ from, until })
@@ -32,8 +30,7 @@ export const SelectTime = ({ onChange }) => {
 
   return (
     <div>
-      <pre>{debug}</pre>
-      <div>from</div>
+      <div>From</div>
       <DateTime name="from"
         onDateChange={date => {
           setFrom({
@@ -41,7 +38,7 @@ export const SelectTime = ({ onChange }) => {
             date
           })
         }} />
-      <div>until</div>
+      <div>Until</div>
       <DateTime name="from"
         onDateChange={date => {
           setUntil({

@@ -2,7 +2,7 @@
   "dependencies": {
     "express": "^4.17.1",
     "knex": "^0.95.10",
-    "pg": "^8.7.1",
-    "prisma": "^2.30.0"
-  }
+    "pg": "^8.7.1"
+  },
+  "license": "MIT"
 }
