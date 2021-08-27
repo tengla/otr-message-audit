@@ -1,0 +1,5 @@
+FROM gangstead/postgis:13-3.1-arm
+
+ENV POSTGRES_USER otr
+ENV POSTGRES_PASSWORD otr
+ENV POSTGRES_DB otr
