@@ -26,9 +26,19 @@ const Header = ({trainId, length}) => {
   return <h3>No messages</h3>
 };
 
+const ErrorMessage = ({ error }) => {
+  if (!error) {
+    return null;
+  }
+  return <div style={{
+    color: 'red', margin: '10pt 0'
+  }}>{error}</div>
+};
+
 function App() {
 
   const [messages, setMessages] = useState([]);
+  const [error, setError] = useState(null);
   const [trainId, setTrainId] = useState('');
   const [country, setCountry] = useState('NO');
   const [rdy, setRdy] = useState(false);
@@ -37,9 +47,20 @@ function App() {
   useEffect(() => {
     if (/^\/messages/.test(url) && rdy) {
       const _url = `${url}&train_id=${trainId}&country=${country}`
-      fetch(_url).then(r => r.json()).then(msgs => {
+      fetch(_url).then(r => {
+        if (r.status >= 400) {
+          setError(`${r.status} ${r.statusText}`);
+        }
+        if (r.status === 200) {
+          setError(null);
+          return r.json();
+        }
+        return [];
+      }).then(msgs => {
         setMessages(msgs);
-      })
+      }).catch(err => {
+        console.log(err);
+      });
     }
   }, [url, trainId, rdy, country]);
 
@@ -52,6 +73,7 @@ function App() {
   return (
     <div className="app">
       <h3>Filter</h3>
+      <ErrorMessage error={error} />
       <SelectTime onChange={handleDateChange} />
       <div className="field">
         <label>Train Id</label>

@@ -8,7 +8,7 @@ const querySchema = joi.object({
   from: joi.string().regex(dateRegex).required(),
   until: joi.string().regex(dateRegex).required(),
   train_id: joi.string().min(1).required(),
-  country: joi.string().valid('NO','SE').required()
+  country: joi.string().valid('NO', 'SE').required()
 });
 
 module.exports = (db) => {
@@ -34,9 +34,17 @@ module.exports = (db) => {
       const { train_id, country } = train;
       console.log('train_id', train_id, 'country',
         country, 'from', from, 'until', until);
-      const msgs = await db.messagesQuery(
-        train_id, country || 'NO', from, until);
-      res.send(msgs);
+      try {
+        const msgs = await db.messagesQuery(
+          train_id, country || 'NO', from, until);
+        res.send(msgs);
+      } catch (err) {
+        console.error(err.message);
+        return res.status(500).send({
+          status: 500,
+          error: 'Internal Server Error'
+        });
+      }
     }
   }
 };
