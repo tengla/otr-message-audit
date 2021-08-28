@@ -1,11 +1,10 @@
 
-const { valid } = require('joi');
 const joi = require('joi');
 const { timestamp, newUTCDate, parseUtc } = require('./dates');
 
 const dateRegex = /^\d{4,4}-\d{2,2}-\d{2,2} \d{2,2}:\d{2,2}(:\d{2,2})?$/;
 
-const schema = joi.object({
+const querySchema = joi.object({
   from: joi.string().regex(dateRegex).required(),
   until: joi.string().regex(dateRegex).required(),
   train_id: joi.string().min(1).required(),
@@ -15,7 +14,7 @@ const schema = joi.object({
 module.exports = (db) => {
   return {
     messagesRoute: async (req, res) => {
-      const validation = schema.validate(req.query);
+      const validation = querySchema.validate(req.query);
       if (validation.error) {
         return res.status(400).send({
           status: 400,
@@ -23,15 +22,16 @@ module.exports = (db) => {
           message: JSON.stringify(validation.error)
         })
       }
+      const train = validation.value;
       const [from, until] = [
-        parseUtc(req.query.from),
-        parseUtc(req.query.until)
+        parseUtc(train.from),
+        parseUtc(train.until)
       ].map(d => {
         return timestamp(
           newUTCDate(...d)
         )
       });
-      const { train_id, country } = req.query;
+      const { train_id, country } = train;
       console.log('train_id', train_id, 'country',
         country, 'from', from, 'until', until);
       const msgs = await db.messagesQuery(
