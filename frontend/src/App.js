@@ -13,11 +13,11 @@ const validateDates = (dates) => {
     timeRe.test(dates.until.time);
 };
 
-const createUrl = (dates,train_id) => {
+const createUrl = (dates, train_id) => {
   return `/messages?from=${dates.from.date} ${dates.from.time}&until=${dates.until.date} ${dates.until.time}`;
 }
 
-const Header = ({trainId, length}) => {
+const Header = ({ trainId, length }) => {
   if (trainId) {
     return <h3>
       Messages for #{trainId} ({length} records)
@@ -33,6 +33,20 @@ const ErrorMessage = ({ error }) => {
   return <div style={{
     color: 'red', margin: '10pt 0'
   }}>{error}</div>
+};
+
+const XmlMessageToggle = ({ xml }) => {
+  const [open, setOpen] = useState(false);
+  const style = { cursor: 'pointer' };
+  if (open) {
+    return <div
+      style={style}
+      onClick={() => setOpen(false)}
+    >
+      <XMLViewer xml={xml} />
+    </div>
+  }
+  return <div style={style} onClick={() => setOpen(true)}>{xml}</div>
 };
 
 function App() {
@@ -82,7 +96,7 @@ function App() {
         }} onFocus={e => {
           setRdy(false);
         }} onBlur={e => {
-          if(/^\d+$/.test(trainId)) {
+          if (/^\d+$/.test(trainId)) {
             setRdy(true)
           } else {
             setRdy(false)
@@ -118,7 +132,7 @@ function App() {
               {new Date(Date.parse(message.timestamp)).toLocaleString()}
             </div>
             <div className='message'>
-              <XMLViewer xml={message.message} />
+              <XmlMessageToggle xml={message.message} />
             </div>
           </div>
         );
