@@ -33,3 +33,15 @@ module.exports.timestamp = (date) => {
   const ss = String(date.getUTCSeconds()).padStart(2, "0");
   return `${yyyy}-${mm}-${dd} ${hh}:${MM}:${ss}`;
 };
+
+/**
+ * parseUTC
+ * @param {string} utcStr
+ * @returns array of numbers to fit in Date constructor
+ */
+module.exports.parseUtc = (utcStr) => {
+  const [date, time] = utcStr.split(' ');
+  return date.split('-').map(n => Number.parseInt(n)).concat(
+    time.split(':').map(n => Number.parseInt(n))
+  );
+};
