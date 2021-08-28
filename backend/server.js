@@ -1,7 +1,7 @@
 
 const express = require('express');
 // fetch messages from db
-const dg = require('./messages');
+const db = require('./messages');
 
 const app = express();
 const port = 3001;

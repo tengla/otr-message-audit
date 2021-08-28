@@ -8,15 +8,15 @@ const shouldSucceed = async () => {
     messagesQuery: (train_id, country, from, until) => {
       assert(train_id === '94');
       assert(country === 'NO');
-      assert(from === '2021-08-24 00:00:00');
-      assert(until === '2021-08-24 23:59:59')
+      assert(from === '2021-08-24 00:00:00', from);
+      assert(until === '2021-08-24 23:59:59', until)
       return Promise.resolve([])
     }
   });
 
   const req = {
     query: {
-      from: '2021-08-24 00:00:00',
+      from: '2021-08-24 00:00',
       until: '2021-08-24 23:59:59',
       train_id: '94',
       country: 'NO'

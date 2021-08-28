@@ -3,7 +3,7 @@ const { valid } = require('joi');
 const joi = require('joi');
 const { timestamp, newUTCDate, parseUtc } = require('./dates');
 
-const dateRegex = /^\d{4,4}-\d{2,2}-\d{2,2} \d{2,2}:\d{2,2}:\d{2,2}/;
+const dateRegex = /^\d{4,4}-\d{2,2}-\d{2,2} \d{2,2}:\d{2,2}(:\d{2,2})?$/;
 
 const schema = joi.object({
   from: joi.string().regex(dateRegex).required(),
